@@ -88,15 +88,6 @@ class EquipoBase(BaseModel):
     fecha_mantenimiento_equipo: Optional[date] = None
     fecha_instalacion_equipo: Optional[date] = None
     estado_equipo: Optional[str] = None
-    hora_restante_equipo_1: int
-    hora_uso_equipo_1: int
-    modelo_consum_equipo_1: Optional[str] = None
-    hora_restante_equipo_2: int
-    hora_uso_equipo_2: int
-    modelo_consum_equipo_2: Optional[str] = None
-    hora_restante_equipo_3: int
-    hora_uso_equipo_3: int
-    modelo_consum_equipo_3: Optional[str] = None
     id_sala: int
     id_categoria_equipo: int
 
@@ -150,9 +141,46 @@ class AlertaResponse(AlertaBase):
     class Config:
         from_attributes = True
 
-
 class Alerta(AlertaBase):
     id_alerta: int
+
+    class Config:
+        from_attributes = True
+
+# ---------- CONSUMIBLE ----------
+class ConsumibleBase(BaseModel):
+    # Campos OBLIGATORIOS
+    id_equipo: int
+    
+    # Campos OPCIONALES (pueden ser null en la BD)
+    marca_consumible : Optional[str] = None
+    modelo_consumible : Optional[str] = None
+    horas_uso : Optional[str] = None
+    horas_restantes : Optional[str] = None
+    fecha_instalacion : Optional[str] = None
+    codigo_consumible : Optional[str] = None
+
+class ConsumibleCreate(ConsumibleBase):
+    pass
+
+class ConsumibleUpdate(BaseModel):
+    # Campos que se pueden actualizar
+    marca_consumible : Optional[str] = None
+    modelo_consumible : Optional[str] = None
+    horas_uso : Optional[str] = None
+    horas_restantes : Optional[str] = None
+    fecha_instalacion : Optional[str] = None
+    codigo_consumible : Optional[str] = None
+
+class ConsumibleUResponse(ConsumibleBase):
+    id_consumible: int
+    
+    class Config:
+        from_attributes = True
+
+
+class Consumible(ConsumibleBase):
+    id_consumible: int
 
     class Config:
         from_attributes = True

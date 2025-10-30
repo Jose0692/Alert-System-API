@@ -55,23 +55,15 @@ class Equipo(Base):
     marca_equipo = Column(String(100))
     modelo_equipo = Column(String(100))
     ip_equipo = Column(INET)
-    fecha_mantenimiento_equipo = Column(Date)
     fecha_instalacion_equipo = Column(Date)
+    fecha_mantenimiento_equipo = Column(Date)
     estado_equipo = Column(String(255))
-    hora_restante_equipo_1 = Column(Integer)
-    hora_uso_equipo_1 = Column(Integer)
-    modelo_consum_equipo_1 = Column(String(255))
-    hora_restante_equipo_2 = Column(Integer)
-    hora_uso_equipo_2 = Column(Integer)
-    modelo_consum_equipo_2 = Column(String(255))
-    hora_restante_equipo_3 = Column(Integer)
-    hora_uso_equipo_3 = Column(Integer)
-    modelo_consum_equipo_3 = Column(String(255))
     id_sala = Column(Integer, ForeignKey("salas.id_sala", ondelete="CASCADE"), nullable=False)
     id_categoria_equipo = Column(Integer, ForeignKey("categoria_equipo.id_categoria_equipo", ondelete="CASCADE"), nullable=False)
     sala = relationship("Sala", back_populates="equipos")
     categoria = relationship("CategoriaEquipo", back_populates="equipos")
     alertas = relationship("Alerta", back_populates="equipo", cascade="all, delete")
+    consumibles = relationship("Consumible", back_populates="equipo", cascade="all, delete")
 
 class Alerta(Base):
     __tablename__ = "alertas"
@@ -87,3 +79,15 @@ class Alerta(Base):
     maintenence_alert = Column(String(100))
     id_equipo = Column(Integer, ForeignKey("equipos.id_equipo", ondelete="CASCADE"), nullable=False)
     equipo = relationship("Equipo", back_populates="alertas")
+
+class Consumible(Base):
+    __tablename__ = "consumibles"
+    id_consumible  = Column(Integer, primary_key=True, index=True)
+    marca_consumible  = Column(String(100))
+    modelo_consumible = Column(String(100))
+    horas_uso  = Column(Integer)
+    horas_restantes  = Column(Integer)
+    fecha_instalacion  = Column(Date)
+    codigo_consumible  = Column(String(50))
+    id_equipo = Column(Integer, ForeignKey("equipos.id_equipo", ondelete="CASCADE"), nullable=False)
+    equipo = relationship("Equipo", back_populates="consumibles")
